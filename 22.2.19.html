@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <style>
+        input{
+            width: 100px;
+            height: 50px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        .cle{
+            clear: none;
+        }
+        .box{
+            width: 600px;
+            height: 338px;
+            overflow: hidden;
+            position: relative;
+        }
+        .banner{
+            width: 600%;
+            height: 338px;
+            transition: all 0.5s;
+        }
+        .banner img{
+            float: left;
+        }
+        .ipt{
+            width: 400px;
+            height: 50px;
+            position: absolute;
+            bottom: 10px;
+            left: 100px;
+        }
+        .ipt div{
+            width: 30px;
+            height: 30px;
+            background-color: #cccccc;
+            float: left;
+            margin: 10px 25px;
+            border-radius: 15px;
+            transition: all 0.5s;
+            box-shadow: 0px 0px 10px #222,
+            0px 0px 20px #222;
+            cursor: pointer;
+            text-align: center;
+            line-height: 30px;
+        }
+        .text{
+            width: 300px;
+            height: 1500px;
+            margin: 0px auto;
+            border: 1px solid red;
+        }
+        .gd{
+            width: 100px;
+            height: 200px;
+            border: 1px solid red;
+            position: fixed;
+            top: 40%;
+            right: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div id="se">系统运行了0秒</div>
+    <input type="button" value="启动!" id="start">
+    <input type="button" value="停止!" id="stop">
+    <input type="button" value="重置!" id="r">
+    <div class="cle"></div>
+    <div class="box">
+        <div class="banner" id="banner">
+            <img src="box-Asuka1.jpg" alt="">
+            <img src="box-Asuka3.jpg" alt="">
+            <img src="box-Asuka4.jpg" alt="">
+            <img src="box-Rei1.jpg" alt="">
+            <img src="box-Rei2.jpg" alt="">
+        </div>
+        <div class="ipt">
+            <div class="ipt_1" id="ipt1" onclick="ipt1(1)">1</div>
+            <div class="ipt_1" id="ipt2" onclick="ipt1(2)">2</div>
+            <div class="ipt_1" id="ipt3" onclick="ipt1(3)">3</div>
+            <div class="ipt_1" id="ipt4" onclick="ipt1(4)">4</div>
+            <div class="ipt_1" id="ipt5" onclick="ipt1(5)">5</div>
+        </div>
+    </div>
+    <div class="text"></div>
+    <div class="gd">
+        <input type="button" value="向下滚" id="gun1">
+        <input type="button" value="向上滚" id="gun2">
+        <input type="button" value="向下自动滚" id="gun3">
+        <input type="button" value="向上自动滚" id="gun4">
+        <input type="button" value="暂停!" id="gun5">
+    </div>
+</body>
+<script>
+        
+    let time3;
+    let margin = 0;
+    function time2(){//获取整个图片的div
+        let banner = document.getElementById("banner");
+        time3 = setTimeout(time2,3000);//计时器每三秒执行此函数
+        banner.style.marginLeft = -margin*100+"%";//每次把div向左移动
+
+        //先清除所有按钮样式
+        let ipt_1 = document.getElementsByClassName("ipt_1");
+        let len = ipt_1.length;
+        for(let i=0; i<len; i++){
+           ipt_1[i].style.background = "";
+           ipt_1[i].style.transform = "";
+        }
+
+        //当获取到本次图片的按钮是给它添加样式
+        let ipt1 = document.getElementById("ipt"+(margin+1));
+        ipt1.style.background = "orange";
+        ipt1.style.transform = "scale(1.2)";
+
+        margin++;
+        if(margin == 5){
+            margin = 0;//如果执行到最后一张图片则从头开始
+        }
+    }
+    function ipt1(a){
+        clearInterval(time3);//停止计时器
+        margin = a-1;//把图片变为图片一所在的位置 
+        time2();//开始计时器
+    }
+    time2();
+        
+    //当鼠标移入后停止计时器
+    banner.onmouseover = function(){
+        clearTimeout(time3);
+    }//鼠标移出后启动计时器
+    banner.onmouseout = function(){
+        clearTimeout(time3);
+        time3 = setTimeout(time2,3000);
+    }
+</script>
+
+
+
+
+
+
+
+<script>
+    //获取开始按钮
+    let start = document.getElementById("start");
+    start.onclick = function(){//当开始按钮被点击时
+        if(i == 0){//如果秒数是0的话就开始计时器
+            time();
+        }
+    }
+    let i = 0;
+    let time1;
+    function time(){//获取文字
+        let se = document.getElementById("se");
+        i++;//每次计时秒数增加1
+        se.innerText = "系统运行了"+i+"秒";
+        time1 = setTimeout(time,1000);//使time函数每秒执行一次
+    }
+    //获取停止按钮
+    let stop = document.getElementById("stop");
+    stop.onclick = function(){//当停止按钮被点击时
+        clearInterval(time1);//停止计时器计时
+    }
+    //获取重置按钮
+    let r = document.getElementById("r");
+    r.onclick = function(){//当重置按钮被点击时
+        i = 0;//让秒数变为0
+        let se = document.getElementById("se");//把文字变为初始
+        se.innerText = "系统运行了"+i+"秒";
+        clearInterval(time1);//停止计时器计时
+    }
+
+
+    let gun1 = document.getElementById("gun1");
+    gun1.onclick = function(){
+        scrollBy(0,100);
+    }
+    
+    let gun2 = document.getElementById("gun2");
+    gun2.onclick = function(){
+        scrollBy(0,-100);
+    }
+
+    let gun3 = document.getElementById("gun3");
+    let gtime;
+    gun3.onclick = function guna(){
+        guntime();
+        function guntime(){
+            gtime = setTimeout(guntime,10);
+            scrollBy(0,1);
+        }
+    }
+
+    let gun4 = document.getElementById("gun4");
+    let gtime2;
+    gun4.onclick = function guna2(){
+        guntime2();
+        function guntime2(){
+            gtime2 = setTimeout(guntime2,10);
+            scrollBy(0,-1);
+        }
+    }
+</script>
+<!-- <script src="22.2.19.js"></script> -->
+</html>
